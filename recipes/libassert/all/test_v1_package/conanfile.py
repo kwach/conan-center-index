@@ -10,11 +10,9 @@ class TestPackageV1Conan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
+        cmake.definitions["LIBASSERT2"] = "ON" if self.deps_cpp_info["libassert"].version >= "2.0.0" else "OFF"
         cmake.configure()
         cmake.build()
-
-    def imports(self):
-        self.copy("*.dll", dst="bin", src="lib")
 
     def test(self):
         if not cross_building(self):
